@@ -45,7 +45,7 @@ It has such fields:
 ``Attributes`` appear to be most-generic way to store properties of specific item type.
 
 ### GDInv_ItemDB
-Singleton class. Automatically will be added into autoload when you enable the plguin.  
+Singleton class. Automatically will be added into autoload when you enable the plugin.  
 Contains ``Dictionary`` container for all the ``GDINv_ItemDefinition`` instances. Perfoms parsing of JSONs. 
 
 ### GDInv_ItemStack
@@ -60,8 +60,10 @@ Case of usage: RPG game can have items enchanted. Then you make something with k
 Then you can easilly get it from stack from any place of your game logic code.
 
 ### GDInv_Inventory
-Node that can be accessed from "Creat A Node" menu. Basic implementation of some kind of inventory (player, chest, etc.).
+Node that can be accessed from "Create A Node" menu. Basic implementation of some kind of inventory (player, chest, etc.).
 If you don't like it you can always write your own or extend this one.
+
+Inventory can be finite or infinite. There is ``MaxStacks`` property. Values less than 1 make inventory infinite, otherwise finite.
 
 ### GDInv_Plugin
 Simply plugin routies. There is no reason to explain that it does.
