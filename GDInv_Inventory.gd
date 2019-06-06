@@ -2,8 +2,10 @@
 extends Object
 class_name GDInv_Inventory
 
+# Signals.
 signal stack_added(slot);
 signal stack_merged(slot, count);
+signal stack_removed(slot);
 signal cleaned_up();
 
 # Fields.
@@ -139,6 +141,7 @@ func take_from_slot(slot_id: int) -> GDInv_ItemStack:
 	
 	var stack: GDInv_ItemStack = STACKS[slot_id];
 	STACKS[slot_id] = null; # Remove from the slot.
+	emit_signal("stack_removed", slot_id);
 	return stack;
 
 # Decrements item count at slot
@@ -158,3 +161,5 @@ func dec_in_slot(slot_id: int) -> void:
 			STACKS[slot_id] = null;
 		else:
 			STACKS.erase(slot_id);
+
+		emit_signal("stack_removed", slot_id);
