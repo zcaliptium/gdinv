@@ -10,3 +10,6 @@ var attributes: Dictionary = {};
 # Constructor.
 func _init(id: String) -> void:
 	identifier = id;
+	
+func get_attribute(key: String, default = null):
+	return attributes.get(key, default);

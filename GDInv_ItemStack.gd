@@ -13,3 +13,6 @@ func _init(item_def = null, count = 1) -> void:
 		item = item_def;
 		
 	stackSize = count;
+
+func get_capability(key: String, default = null):
+	return capabilities.get(key, default);
