@@ -1,14 +1,13 @@
 # Copyright (c) 2019 ZCaliptium.
 extends Node
 
-const TEST_OPTION = "PluginSettings/gdinv/ItemJsonPaths";
-
 const ItemDefinition = preload("GDInv_ItemDefinition.gd");
+const PluginSettings = preload("GDInv_Settings.gd");
 var REGISTRY: Dictionary = {};
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	var arr: Array = ProjectSettings.get(TEST_OPTION);
+	var arr: Array = PluginSettings.get_option(PluginSettings.PATHS_OPTION);
 	
 	print("Item JSON directories count... ", arr.size());
 
