@@ -72,7 +72,7 @@ func parse_item_data(item_data: Dictionary) -> void:
 
 	var new_item = ItemDefinition.new(item_id);
 	new_item.attributes = item_data.get("attributes", {});
-	new_item.maxStackSize = new_item.attributes.get("maxStackSize", 0);
+	new_item.maxStackSize = int(new_item.attributes.get("maxStackSize", 0));
 	REGISTRY[item_id] = new_item;
 	
 # Makes new stack instance and returns reference to it, otherwise returns null.
