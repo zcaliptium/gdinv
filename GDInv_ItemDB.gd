@@ -1,4 +1,4 @@
-# Copyright (c) 2019 ZCaliptium.
+# Copyright (c) 2019-2020 ZCaliptium.
 extends Node
 
 const ItemDefinition = preload("GDInv_ItemDefinition.gd");
