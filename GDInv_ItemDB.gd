@@ -7,13 +7,20 @@ var REGISTRY: Dictionary = {};
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	var arr: Array = PluginSettings.get_option(PluginSettings.PATHS_OPTION);
+	var isLoadOnReady: bool = PluginSettings.get_option(PluginSettings.OPT_LOADONREADY);
 	
-	print("Item JSON directories count... ", arr.size());
+	if (isLoadOnReady):
+		load_data();
+
+# Loads all item definitions from specified paths.
+func load_data() -> void:
+	var paths: Array = PluginSettings.get_option(PluginSettings.OPT_PATHS);
+	
+	print("[gdinv] Item JSON directories count... ", paths.size());
 
 	# Iterate through array.
-	for i in range(0, arr.size()):
-		var path: String = arr[i];
+	for i in range(0, paths.size()):
+		var path: String = paths[i];
 		
 		if (!path.empty()):
 			print("  [", i, "] - ", path);

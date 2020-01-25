@@ -1,4 +1,4 @@
-# Copyright (c) 2019 ZCaliptium.
+# Copyright (c) 2019-2020 ZCaliptium.
 extends Object
 class_name GDInv_Inventory
 
