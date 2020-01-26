@@ -5,6 +5,7 @@ class_name GDInv_Inventory
 # Signals.
 signal stack_added(slot);
 signal stack_merged(slot, count);
+signal stack_decreased(slot);
 signal stack_removed(slot);
 signal cleaned_up();
 
@@ -38,7 +39,7 @@ func add_item_by_id(item_id: String, count: int = 1) -> bool:
 	
 	if (item_def == null):
 		return false;
-		
+
 	return add_item(item_def, count);
 
 # Tries to add item by item definition reference.
@@ -100,6 +101,53 @@ func add_stack(stack: GDInv_ItemStack) -> bool:
 		return true;
 
 	return false;
+
+
+# Tries to remove item by identifier.
+# Returns amount of removed items. If -1 then it means item_def is null!
+func remove_item_by_id(item_id: String, count: int = 1) -> int:
+	var item_def: GDInv_ItemDefinition = GDInv_ItemDB.get_item_by_id(item_id);
+	
+	if (item_def == null):
+		return -1;
+	
+	return remove_item(item_def, count);
+	
+# Tries to remove item by item definition reference.
+# Returns amount of removed items. If -1 then it means item_def is null!
+func remove_item(item_def: GDInv_ItemDefinition, count: int = 1) -> int:
+	var removedItems: int = 0;
+	
+	# Iterate trough inventory.
+	for i in range(0, STACKS.size()):
+		var element: GDInv_ItemStack = STACKS[i];
+		
+		# Skip empty slots.
+		if (element == null):
+			continue;
+
+		# If same definition.
+		if (element.item == item_def):
+			# If enough items. Then just decrement stack.
+			if (element.stackSize > count):
+				removedItems += count;
+				element.stackSize -= count;
+				emit_signal("stack_decreased", i);
+				return removedItems;
+			# If exactly needed item count. Then just remove stack.
+			elif (element.stackSize == count):
+				removedItems += count;
+				STACKS[i] = null;
+				emit_signal("stack_removed", i);
+				return removedItems;
+			
+			# If not enough items in stack. And continue cycle.
+			removedItems += element.stackSize;
+			count -= element.stackSize;
+			STACKS[i] = null;
+			emit_signal("stack_removed", i);
+		
+	return removedItems;
 
 # Returns slot number with item that has specified identifier. Otherwise -1.
 func find_item_by_id(item_id: String, start: int = 0) -> int:
