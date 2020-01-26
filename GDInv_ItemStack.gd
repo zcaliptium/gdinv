@@ -11,7 +11,10 @@ var capabilities: Dictionary = {};
 func _init(item_def = null, count = 1) -> void:
 	if (item_def != null):
 		item = item_def;
-		
+
+	if (count < 1):
+		count = 1;
+
 	stackSize = count;
 
 func get_capability(key: String, default = null):
