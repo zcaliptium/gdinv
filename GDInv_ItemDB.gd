@@ -1,20 +1,21 @@
 # Copyright (c) 2019-2020 ZCaliptium.
 extends Node
 
+# Fields.
 const ItemDefinition = preload("GDInv_ItemDefinition.gd");
 const PluginSettings = preload("GDInv_Settings.gd");
 var REGISTRY: Dictionary = {};
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	var isLoadOnReady: bool = PluginSettings.get_option(PluginSettings.OPT_LOADONREADY);
+	var isLoadOnReady: bool = PluginSettings.get_option(PluginSettings.PROP_LOADONREADY);
 	
 	if (isLoadOnReady):
 		load_data();
 
 # Loads all item definitions from specified paths.
 func load_data() -> void:
-	var paths: Array = PluginSettings.get_option(PluginSettings.OPT_PATHS);
+	var paths: Array = PluginSettings.get_option(PluginSettings.PROP_PATHS);
 	
 	print("[gdinv] Item JSON directories count... ", paths.size());
 
@@ -74,11 +75,21 @@ func parse_item_data(item_data: Dictionary) -> void:
 	var item_id: String = item_data.get("id");
 
 	if (item_id == null):
-		print("      Malformed json! Missing identifier field!");
+		print("      Malformed json! Missing 'id' field!");
+		return;
+		
+	if (typeof(item_id) != TYPE_STRING):
+		print("      Malformed json! Field 'id' is not string!");
+		return;
+
+	var attributes = item_data.get("attributes", {});
+
+	if (typeof(attributes) != TYPE_DICTIONARY):
+		print("      Malformed json! Field 'attributes' is not map!");
 		return;
 
 	var new_item = ItemDefinition.new(item_id);
-	new_item.attributes = item_data.get("attributes", {});
+	new_item.attributes = attributes;
 	new_item.maxStackSize = int(new_item.attributes.get("maxStackSize", 0));
 	REGISTRY[item_id] = new_item;
 	
