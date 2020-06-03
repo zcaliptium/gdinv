@@ -20,6 +20,21 @@ func _init(item_def = null, count = 1) -> void:
 func get_capability(key: String, default = null):
 	return capabilities.get(key, default);
 
+# Get data from dictionary taken from JSON.
+func from_json(json_data: Dictionary):
+	var item_id = json_data.get("item", "null");
+	var size = json_data.get("stackSize", null);
+	var caps = json_data.get("capabilities", {})
+
+	if (typeof(item_id) == TYPE_STRING and item_id != "null"):
+		item = GDInv_ItemDB.get_item_by_id(item_id);
+
+	if (typeof(caps) == TYPE_DICTIONARY):
+		capabilities = caps;
+
+	if (typeof(size) == TYPE_REAL):
+		stackSize = int(size);
+
 # Returns json string that should be enough to represent this item.
 func to_json() -> String:
 	var Data: Dictionary = {};
@@ -29,7 +44,7 @@ func to_json() -> String:
 		Data["item"] = null;
 	else:
 		Data["item"] = item.identifier;
-	Data["stackSize"] = 0;
+	Data["stackSize"] = stackSize;
 	Data["capabilities"] = capabilities;
 
 	return to_json(Data); # Serialize as json.
