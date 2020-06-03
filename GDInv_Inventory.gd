@@ -10,13 +10,16 @@ signal stack_removed(slot);
 signal cleaned_up();
 
 # Fields.
+export var InitOnReady: bool = true;
 export var RestrictStackSize: bool = true;
 export var MaxStacks: int = 0;
 var STACKS: Array = [];
 
 # Called when node enters tree.
 func _ready() -> void:
-	init();
+	# If inventory should be auto-initialized on ready.
+	if (InitOnReady):
+		init();
 
 # Should be called for any finite inventory.
 func init() -> void:
@@ -26,8 +29,9 @@ func init() -> void:
 
 # Removes all items from slots.
 func clear() -> void:
-	STACKS.clear();
+	STACKS.clear(); # Remove all stacks.
 
+	# Fill finite inventory with dummy stacks.
 	if (MaxStacks > 0):
 		init();
 
