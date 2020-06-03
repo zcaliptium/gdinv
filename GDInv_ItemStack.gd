@@ -19,3 +19,17 @@ func _init(item_def = null, count = 1) -> void:
 
 func get_capability(key: String, default = null):
 	return capabilities.get(key, default);
+
+# Returns json string that should be enough to represent this item.
+func to_json() -> String:
+	var Data: Dictionary = {};
+
+	# Put data into dictionary.
+	if (item == null):
+		Data["item"] = null;
+	else:
+		Data["item"] = item.identifier;
+	Data["stackSize"] = 0;
+	Data["capabilities"] = capabilities;
+
+	return to_json(Data); # Serialize as json.
