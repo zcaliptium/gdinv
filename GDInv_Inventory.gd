@@ -225,8 +225,9 @@ func to_json() -> String:
 	for i in range(0, STACKS.size()):
 		if (STACKS[i] == null):
 			stacks_data.append(null);
-		else:
-			stacks_data.append(STACKS[i].to_json());
+			continue;
+
+		stacks_data.append(STACKS[i].to_json());
 
 	data["stacks"] = stacks_data;
 
@@ -240,9 +241,13 @@ func from_json(json_data: Dictionary) -> void:
 	if (typeof(stacks_data) == TYPE_ARRAY):
 		# For finite inventory.
 		if (RestrictStackSize):
-			for i in range (0, stacks_data):
+			for i in range (0, stacks_data.size()):
 				if (i >= STACKS.size()):
 					break;
+
+				# Skip invalid stacks.
+				if (stacks_data[i] == null):
+					continue;
 
 				var new_stack = GDInv_ItemStack.new();
 				new_stack.from_json(stacks_data[i]);
