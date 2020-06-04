@@ -23,7 +23,7 @@ func get_capability(key: String, default = null):
 # Get data from dictionary taken from JSON.
 func from_json(json_data: Dictionary):
 	var item_id = json_data.get("item", "null");
-	var size = json_data.get("stackSize", null);
+	var size = json_data.get("stackSize", 0.0);
 	var caps = json_data.get("capabilities", {})
 
 	if (typeof(item_id) == TYPE_STRING and item_id != "null"):
