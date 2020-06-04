@@ -215,3 +215,18 @@ func dec_in_slot(slot_id: int) -> void:
 			STACKS.erase(slot_id);
 
 		emit_signal("stack_removed", slot_id);
+
+func to_json() -> String:
+	var Data: Dictionary = {};
+	var StacksData: Array = [];
+	
+	# Iterate trough inventory.
+	for i in range(0, STACKS.size()):
+		if (STACKS[i] == null):
+			StacksData.append(null);
+		else:
+			StacksData.append(STACKS[i].to_json());
+
+	Data["stacks"] = StacksData;
+
+	return to_json(Data);
