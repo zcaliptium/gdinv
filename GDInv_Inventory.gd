@@ -216,17 +216,39 @@ func dec_in_slot(slot_id: int) -> void:
 
 		emit_signal("stack_removed", slot_id);
 
+# Returns inventory data as JSON string.
 func to_json() -> String:
-	var Data: Dictionary = {};
-	var StacksData: Array = [];
+	var data: Dictionary = {};
+	var stacks_data: Array = [];
 	
 	# Iterate trough inventory.
 	for i in range(0, STACKS.size()):
 		if (STACKS[i] == null):
-			StacksData.append(null);
+			stacks_data.append(null);
 		else:
-			StacksData.append(STACKS[i].to_json());
+			stacks_data.append(STACKS[i].to_json());
 
-	Data["stacks"] = StacksData;
+	data["stacks"] = stacks_data;
 
-	return to_json(Data);
+	return to_json(data);
+	
+func from_json(json_data: Dictionary) -> void:
+	var stacks_data = json_data.get("stacks", []);
+	
+	clear();
+	
+	if (typeof(stacks_data) == TYPE_ARRAY):
+		# For finite inventory.
+		if (RestrictStackSize):
+			for i in range (0, stacks_data):
+				if (i >= STACKS.size()):
+					break;
+
+				var new_stack = GDInv_ItemStack.new();
+				new_stack.from_json(stacks_data[i]);
+				STACKS[i] = new_stack;
+		else:
+			for i in range (0, stacks_data):
+				var new_stack = GDInv_ItemStack.new();
+				new_stack.from_json(stacks_data[i]);
+				STACKS[i].append(new_stack);
