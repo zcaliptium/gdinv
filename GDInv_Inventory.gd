@@ -245,7 +245,7 @@ func from_json(json_data: Dictionary) -> void:
 				if (i >= STACKS.size()):
 					break;
 
-				# Skip invalid stacks.
+				# Skip invalid stacks (null elements in array).
 				if (stacks_data[i] == null):
 					continue;
 
