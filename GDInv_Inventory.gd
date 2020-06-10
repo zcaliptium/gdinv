@@ -218,7 +218,7 @@ func dec_in_slot(slot_id: int) -> void:
 
 # Returns Dictionary that represents this inventory.
 #   Use to_json on result to get JSON string.
-func to_json() -> Dictionary:
+func to_data() -> Dictionary:
 	var data: Dictionary = {};
 	var stacks_data: Array = [];
 	
@@ -228,13 +228,15 @@ func to_json() -> Dictionary:
 			stacks_data.append(null);
 			continue;
 
-		stacks_data.append(STACKS[i].to_json());
+		stacks_data.append(STACKS[i].to_data());
 
 	data["stacks"] = stacks_data;
 
 	return data;
-	
-func from_json(json_data: Dictionary) -> void:
+
+# Get stack data from the Dictionary.
+#   For example you can get such dictionary from JSON.
+func from_data(json_data: Dictionary) -> void:
 	var stacks_data = json_data.get("stacks", []);
 	
 	clear();
@@ -251,10 +253,10 @@ func from_json(json_data: Dictionary) -> void:
 					continue;
 
 				var new_stack = GDInv_ItemStack.new();
-				new_stack.from_json(stacks_data[i]);
+				new_stack.from_data(stacks_data[i]);
 				STACKS[i] = new_stack;
 		else:
 			for i in range (0, stacks_data):
 				var new_stack = GDInv_ItemStack.new();
-				new_stack.from_json(stacks_data[i]);
+				new_stack.from_data(stacks_data[i]);
 				STACKS[i].append(new_stack);

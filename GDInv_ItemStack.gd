@@ -20,8 +20,9 @@ func _init(item_def = null, count = 1) -> void:
 func get_capability(key: String, default = null):
 	return capabilities.get(key, default);
 
-# Get data from dictionary taken from JSON.
-func from_json(json_data: Dictionary):
+# Get stack data from the Dictionary.
+#   For example you can get such dictionary from JSON.
+func from_data(json_data: Dictionary):
 	var item_id = json_data.get("item", "null");
 	var size = json_data.get("stackSize", 0.0);
 	var caps = json_data.get("capabilities", {})
@@ -37,7 +38,7 @@ func from_json(json_data: Dictionary):
 
 # Returns Dictionary that represents this stack.
 #   Use to_json on result to get JSON string.
-func to_json():
+func to_data():
 	var data: Dictionary = {};
 
 	# Put data into dictionary.
