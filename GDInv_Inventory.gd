@@ -216,8 +216,9 @@ func dec_in_slot(slot_id: int) -> void:
 
 		emit_signal("stack_removed", slot_id);
 
-# Returns inventory data as JSON string.
-func to_json() -> String:
+# Returns Dictionary that represents this inventory.
+#   Use to_json on result to get JSON string.
+func to_json() -> Dictionary:
 	var data: Dictionary = {};
 	var stacks_data: Array = [];
 	
@@ -231,7 +232,7 @@ func to_json() -> String:
 
 	data["stacks"] = stacks_data;
 
-	return to_json(data);
+	return data;
 	
 func from_json(json_data: Dictionary) -> void:
 	var stacks_data = json_data.get("stacks", []);

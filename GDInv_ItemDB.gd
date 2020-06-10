@@ -88,6 +88,7 @@ func parse_item_data(item_data: Dictionary) -> void:
 		print("      Malformed json! Field 'attributes' is not map!");
 		return;
 
+	# Instantiate new item definition.
 	var new_item = ItemDefinition.new(item_id);
 	new_item.attributes = attributes;
 	new_item.maxStackSize = int(new_item.attributes.get("maxStackSize", 0));

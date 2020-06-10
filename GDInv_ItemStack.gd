@@ -35,16 +35,17 @@ func from_json(json_data: Dictionary):
 	if (typeof(size) == TYPE_REAL):
 		stackSize = int(size);
 
-# Returns json string that should be enough to represent this item.
+# Returns Dictionary that represents this stack.
+#   Use to_json on result to get JSON string.
 func to_json():
-	var Data: Dictionary = {};
+	var data: Dictionary = {};
 
 	# Put data into dictionary.
 	if (item == null):
-		Data["item"] = null;
+		data["item"] = null;
 	else:
-		Data["item"] = item.identifier;
-	Data["stackSize"] = stackSize;
-	Data["capabilities"] = capabilities;
+		data["item"] = item.identifier;
+	data["stackSize"] = stackSize;
+	data["capabilities"] = capabilities;
 
-	return Data; # Serialize as json.
+	return data; # Serialize as json.
