@@ -36,7 +36,7 @@ func from_json(json_data: Dictionary):
 		stackSize = int(size);
 
 # Returns json string that should be enough to represent this item.
-func to_json() -> String:
+func to_json():
 	var Data: Dictionary = {};
 
 	# Put data into dictionary.
@@ -47,4 +47,4 @@ func to_json() -> String:
 	Data["stackSize"] = stackSize;
 	Data["capabilities"] = capabilities;
 
-	return to_json(Data); # Serialize as json.
+	return Data; # Serialize as json.
