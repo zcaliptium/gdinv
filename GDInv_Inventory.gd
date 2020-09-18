@@ -1,5 +1,5 @@
 # Copyright (c) 2019-2020 ZCaliptium.
-extends Object
+extends Node
 class_name GDInv_Inventory
 
 # Signals.
