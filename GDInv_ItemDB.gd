@@ -31,7 +31,8 @@ func load_data() -> void:
 
 # Tries to load JSON files from specified directory.
 func load_items_from_path(path: String) -> void:
-	var files = find_all_at_path(path);
+	var is_rec = PluginSettings.get_option(PluginSettings.PROP_RECLOAD);
+	var files = find_all_at_path(path, is_rec);
 	
 	print("    Found files... ", files.size());
 	
@@ -40,7 +41,7 @@ func load_items_from_path(path: String) -> void:
 		print("    ", file)
 		load_item(file);
 
-func find_all_at_path(path: String) -> Array:
+func find_all_at_path(path: String, recursive: bool = true) -> Array:
 	var found_files := [];
 	var dir_queue := [path];
 	var dir: Directory;
@@ -48,7 +49,7 @@ func find_all_at_path(path: String) -> Array:
 	var file: String;
 	while file or not dir_queue.empty():
 		if file:
-			if dir.current_is_dir():
+			if dir.current_is_dir() and recursive:
 				dir_queue.append("%s/%s" % [dir.get_current_dir(), file]);
 			elif file.ends_with(".json"):
 				found_files.append("%s/%s.%s" % [dir.get_current_dir(), file.get_basename(), file.get_extension()]);

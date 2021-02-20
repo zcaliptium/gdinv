@@ -5,6 +5,7 @@ const PREFIX = "PluginSettings/gdinv/"
 
 const PROP_PATHS = PREFIX + "ItemJsonPaths";
 const PROP_LOADONREADY = PREFIX + "LoadOnReady";
+const PROP_RECLOAD = PREFIX + "RecursiveLoad";
 
 const PROPERTIES: Array = [
 	{
@@ -15,12 +16,17 @@ const PROPERTIES: Array = [
 	{
 		"name": PROP_LOADONREADY,
 		"type": TYPE_BOOL
+	},
+	{
+		"name": PROP_RECLOAD,
+		"type": TYPE_BOOL
 	}
 ];
 
 const DEFAULTS: Dictionary = {
 	PROP_PATHS: {},
-	PROP_LOADONREADY: true
+	PROP_LOADONREADY: true,
+	PROP_RECLOAD: true
 }
 
 # Loads settings related to this plugin.
