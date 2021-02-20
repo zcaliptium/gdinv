@@ -25,27 +25,48 @@ func load_data() -> void:
 		
 		if (!path.empty()):
 			print("  [", i, "] - ", path);
-			load_items_from_dir(path);
+			load_items_from_path(path);
 		else:
 			print("  [", i, "] - Empty");
 
 # Tries to load JSON files from specified directory.
-func load_items_from_dir(path: String) -> void:
-	var dir = Directory.new();
+func load_items_from_path(path: String) -> void:
+	var files = find_all_at_path(path);
 	
-	# If directory exist.
-	if (dir.open(path) == OK):
-		dir.list_dir_begin(true);
-		var file_name = dir.get_next();
-		
-		# Until we have entries...
-		while (file_name != ""):
-			if (!dir.current_is_dir() && file_name.ends_with(".json")):
-				print("    ", file_name);
-				load_item(path + file_name);
-			file_name = dir.get_next();
-		
-		print("    End");
+	print("    Found files... ", files.size());
+	
+	for i in range(0, files.size()):
+		var file = files[i];
+		print("    ", file)
+		load_item(file);
+
+func find_all_at_path(path: String) -> Array:
+	var found_files := [];
+	var dir_queue := [path];
+	var dir: Directory;
+
+	var file: String;
+	while file or not dir_queue.empty():
+		if file:
+			if dir.current_is_dir():
+				dir_queue.append("%s/%s" % [dir.get_current_dir(), file]);
+			elif file.ends_with(".json"):
+				found_files.append("%s/%s.%s" % [dir.get_current_dir(), file.get_basename(), file.get_extension()]);
+		else:
+			if dir:
+				dir.list_dir_end();
+
+			if dir_queue.empty():
+				break;
+
+			# Open next dir.
+			dir = Directory.new();
+			dir.open(dir_queue.pop_front());
+			dir.list_dir_begin(true, true);
+
+		file = dir.get_next();
+
+	return found_files;
 	
 func load_item(url: String) -> void:
 	var file = File.new();
@@ -70,7 +91,7 @@ func load_item(url: String) -> void:
 	#print("      Data: ", json_result.result);
 	var item_data:Dictionary = json_result.result;
 	parse_item_data(item_data);
-	
+
 func parse_item_data(item_data: Dictionary) -> void:
 	var item_id: String = item_data.get("id");
 
