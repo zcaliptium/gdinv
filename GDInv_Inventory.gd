@@ -212,7 +212,7 @@ func dec_in_slot(slot_id: int) -> void:
 		if (MaxStacks > 0):
 			STACKS[slot_id] = null;
 		else:
-			STACKS.erase(slot_id);
+			STACKS.remove(slot_id);
 
 		emit_signal("stack_removed", slot_id);
 
