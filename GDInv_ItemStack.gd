@@ -3,9 +3,11 @@ extends Object
 class_name GDInv_ItemStack
 
 # Fields.
+const GDInv_ItemDB = preload("GDInv_ItemDB.gd")
 var stackSize: int = 0;
 var item: GDInv_ItemDefinition = null;
 var capabilities: Dictionary = {};
+onready var item_db = GDInv_ItemDB.new()
 
 # Constructor.
 func _init(item_def = null, count = 1) -> void:
@@ -28,7 +30,7 @@ func from_data(json_data: Dictionary):
 	var caps = json_data.get("capabilities", {})
 
 	if (typeof(item_id) == TYPE_STRING and item_id != "null"):
-		item = GDInv_ItemDB.get_item_by_id(item_id);
+		item = item_db.get_item_by_id(item_id);
 
 	if (typeof(caps) == TYPE_DICTIONARY):
 		capabilities = caps;

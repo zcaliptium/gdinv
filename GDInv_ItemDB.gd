@@ -62,11 +62,15 @@ func find_all_at_path(path: String, recursive: bool = true) -> Array:
 
 			# Open next dir.
 			dir = Directory.new();
-			dir.open(dir_queue.pop_front());
-			dir.list_dir_begin(true, true);
+			var err = dir.open(dir_queue.pop_front());
+			if err: push_error(err)
+			err = dir.list_dir_begin(true, true);
+			if err: push_error(err)
 
 		file = dir.get_next();
 
+	if dir:
+		dir.list_dir_end();	
 	return found_files;
 	
 func load_item(url: String) -> void:
