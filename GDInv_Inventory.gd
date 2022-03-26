@@ -256,7 +256,7 @@ func from_data(json_data: Dictionary) -> void:
 				new_stack.from_data(stacks_data[i]);
 				STACKS[i] = new_stack;
 		else:
-			for i in range (0, stacks_data):
+			for i in range (0, stacks_data.size()):
 				var new_stack = GDInv_ItemStack.new();
 				new_stack.from_data(stacks_data[i]);
 				STACKS[i].append(new_stack);
