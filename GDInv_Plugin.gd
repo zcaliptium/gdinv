@@ -1,4 +1,4 @@
-# Copyright (c) 2019-2021 ZCaliptium.
+# Copyright (c) 2019-2022 ZCaliptium.
 tool
 extends EditorPlugin
 

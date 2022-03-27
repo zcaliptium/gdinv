@@ -1,4 +1,4 @@
-# Copyright (c) 2019-2021 ZCaliptium.
+# Copyright (c) 2019-2022 ZCaliptium.
 extends Object
 
 const PREFIX = "PluginSettings/gdinv/"
