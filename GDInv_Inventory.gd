@@ -7,6 +7,7 @@ signal stack_added(slot);
 signal stack_merged(slot, count);
 signal stack_decreased(slot);
 signal stack_removed(slot);
+signal data_loaded();
 signal cleaned_up();
 
 # Fields.
@@ -260,3 +261,5 @@ func from_data(json_data: Dictionary) -> void:
 				var new_stack = GDInv_ItemStack.new();
 				new_stack.from_data(stacks_data[i]);
 				STACKS[i].append(new_stack);
+
+	emit_signal("data_loaded");
