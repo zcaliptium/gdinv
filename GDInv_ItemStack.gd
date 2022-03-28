@@ -24,7 +24,7 @@ func get_capability(key: String, default = null):
 #   For example you can get such dictionary from JSON.
 func from_data(json_data: Dictionary):
 	var item_id = json_data.get("item", "null");
-	var size = json_data.get("stackSize", 0.0);
+	var size = json_data.get("stackSize", 0);
 	var caps = json_data.get("capabilities", {})
 
 	if (typeof(item_id) == TYPE_STRING and item_id != "null"):
@@ -33,7 +33,7 @@ func from_data(json_data: Dictionary):
 	if (typeof(caps) == TYPE_DICTIONARY):
 		capabilities = caps;
 
-	if (typeof(size) == TYPE_REAL):
+	if (typeof(size) == TYPE_REAL or typeof(size) == TYPE_INT):
 		stackSize = int(size);
 
 # Returns Dictionary that represents this stack.
