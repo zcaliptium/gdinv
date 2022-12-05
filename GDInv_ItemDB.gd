@@ -91,31 +91,10 @@ func load_item(url: String) -> void:
 
 	#print("      Data: ", json_result.result);
 	var item_data:Dictionary = json_result.result;
-	parse_item_data(item_data);
+	var new_item = ItemDefinition.new();
+	if (new_item.from_data(item_data) == 0):
+		REGISTRY[new_item.identifier] = new_item;
 
-func parse_item_data(item_data: Dictionary) -> void:
-	var item_id: String = item_data.get("id");
-
-	if (item_id == null):
-		print("      Malformed json! Missing 'id' field!");
-		return;
-		
-	if (typeof(item_id) != TYPE_STRING):
-		print("      Malformed json! Field 'id' is not string!");
-		return;
-
-	var attributes = item_data.get("attributes", {});
-
-	if (typeof(attributes) != TYPE_DICTIONARY):
-		print("      Malformed json! Field 'attributes' is not map!");
-		return;
-
-	# Instantiate new item definition.
-	var new_item = ItemDefinition.new(item_id);
-	new_item.attributes = attributes;
-	new_item.maxStackSize = int(new_item.attributes.get("maxStackSize", 0));
-	REGISTRY[item_id] = new_item;
-	
 # Makes new stack instance and returns reference to it, otherwise returns null.
 func make_stack_by_id(item_id: String, count: int = 1) -> GDInv_ItemStack:
 	if (item_id == null):
