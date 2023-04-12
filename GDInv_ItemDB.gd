@@ -23,7 +23,7 @@ func load_data() -> void:
 	for i in range(0, paths.size()):
 		var path: String = paths[i];
 		
-		if (!path.empty()):
+		if (!path.is_empty()):
 			print("  [", i, "] - ", path);
 			load_items_from_path(path);
 		else:
@@ -44,10 +44,10 @@ func load_items_from_path(path: String) -> void:
 func find_all_at_path(path: String, recursive: bool = true) -> Array:
 	var found_files := [];
 	var dir_queue := [path];
-	var dir: Directory;
+	var dir: DirAccess;
 
 	var file: String;
-	while file or not dir_queue.empty():
+	while !file.is_empty() or not dir_queue.is_empty():
 		if file:
 			if dir.current_is_dir() and recursive:
 				dir_queue.append("%s/%s" % [dir.get_current_dir(), file]);
@@ -57,40 +57,43 @@ func find_all_at_path(path: String, recursive: bool = true) -> Array:
 			if dir:
 				dir.list_dir_end();
 
-			if dir_queue.empty():
+			if dir_queue.is_empty():
 				break;
 
 			# Open next dir.
-			dir = Directory.new();
-			dir.open(dir_queue.pop_front());
-			dir.list_dir_begin(true, true);
+			dir = DirAccess.open(dir_queue.pop_front());
+			dir.list_dir_begin() ;# TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 
 		file = dir.get_next();
 
 	return found_files;
 	
 func load_item(url: String) -> void:
-	var file = File.new();
+	var file
 	
-	if (!file.file_exists(url)):
+	if (!FileAccess.file_exists(url)):
 		print("      Failed to open file! Doesn't exist!");
 		return;
 	
-	if (file.open(url, File.READ)):
+	file = FileAccess.open(url, FileAccess.READ)
+	
+	if (!file):
 		print("      Failed to open file!");
 		return;
 
 	#print("test: ", file.get_as_text())
 
-	var json_result = JSON.parse(file.get_as_text());
+	var test_json_conv = JSON.new()
+	test_json_conv.parse(file.get_as_text());
+	var json_result = test_json_conv.get_data()
 	file.close();
 
-	if (json_result.error != 0):
-		print("      Parse error (", json_result.error, ")");
+	if (json_result == null):
+		print("      Parse error");
 		return;
 
-	#print("      Data: ", json_result.result);
-	var item_data:Dictionary = json_result.result;
+	#print("      Data: ", json_result);
+	var item_data:Dictionary = json_result;
 	var new_item = ItemDefinition.new();
 	if (new_item.from_data(item_data) == 0):
 		REGISTRY[new_item.identifier] = new_item;

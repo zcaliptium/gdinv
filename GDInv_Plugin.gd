@@ -1,5 +1,5 @@
+@tool
 # Copyright (c) 2019-2022 ZCaliptium.
-tool
 extends EditorPlugin
 
 const ITEMDB_NAME = "GDInv_ItemDB";

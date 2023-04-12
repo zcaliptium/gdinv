@@ -11,9 +11,9 @@ signal data_loaded();
 signal cleaned_up();
 
 # Fields.
-export var InitOnReady: bool = true;
-export var RestrictStackSize: bool = true;
-export var MaxStacks: int = 0;
+@export var InitOnReady: bool = true;
+@export var RestrictStackSize: bool = true;
+@export var MaxStacks: int = 0;
 var STACKS: Array = [];
 
 # Called when node enters tree.
@@ -213,7 +213,7 @@ func dec_in_slot(slot_id: int) -> void:
 		if (MaxStacks > 0):
 			STACKS[slot_id] = null;
 		else:
-			STACKS.remove(slot_id);
+			STACKS.remove_at(slot_id);
 
 		emit_signal("stack_removed", slot_id);
 
