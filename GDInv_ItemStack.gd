@@ -33,7 +33,7 @@ func from_data(json_data: Dictionary):
 	if (typeof(caps) == TYPE_DICTIONARY):
 		capabilities = caps;
 
-	if (typeof(size) == TYPE_REAL or typeof(size) == TYPE_INT):
+	if (typeof(size) == TYPE_FLOAT or typeof(size) == TYPE_INT):
 		stackSize = int(size);
 
 # Returns Dictionary that represents this stack.

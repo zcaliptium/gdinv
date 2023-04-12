@@ -10,7 +10,7 @@ const PROP_RECLOAD = PREFIX + "RecursiveLoad";
 const PROPERTIES: Array = [
 	{
 		"name": PROP_PATHS,
-		"type": TYPE_STRING_ARRAY,
+		"type": TYPE_PACKED_STRING_ARRAY,
 		"hint": PROPERTY_HINT_DIR
 	},
 	{
